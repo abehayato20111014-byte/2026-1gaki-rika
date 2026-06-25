@@ -76,7 +76,7 @@
             <div class="border-t border-slate-800 pt-4">
                 <div class="flex justify-between items-center mb-2">
                     <h3 class="text-xs font-bold text-slate-400 flex items-center gap-1.5">
-                        <i data-lucide="search" class="w-3.5 h-3.5 text-emerald-400"></i> 待機中の部屋から探す
+                        <i data-lucide="search" class="w-3.5 h-3.5 text-emerald-400"></i> 待機中の部屋から探す（理科）
                     </h3>
                     <button onclick="refreshRoomsList()" class="text-[10px] text-emerald-400 hover:text-emerald-300 flex items-center gap-1 bg-slate-950 px-2.5 py-1 rounded-lg border border-slate-800 transition-all">
                         <i data-lucide="refresh-cw" class="w-3 h-3"></i> 一覧を更新
@@ -124,7 +124,7 @@
 
     <div id="lobby-screen" class="hidden space-y-6 relative z-10 fade-in">
         <div class="flex justify-between items-center border-b border-slate-800 pb-3">
-            <h2 class="text-xl font-black text-emerald-400 flex items-center gap-2"><i data-lucide="radio" class="w-6 h-6 animate-pulse"></i> 対戦ロビー</h2>
+            <h2 class="text-xl font-black text-emerald-400 flex items-center gap-2"><i data-lucide="radio" class="w-6 h-6 animate-pulse"></i> 対戦ロビー (理科)</h2>
             <div class="bg-slate-900 border border-emerald-500/50 px-4 py-2 rounded-xl flex items-center gap-3">
                 <span class="text-xs text-slate-400 font-bold">ルームID:</span>
                 <span id="lobby-room-id" class="text-xl font-black text-emerald-400 tracking-widest font-mono">-----</span>
@@ -313,7 +313,8 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     const auth = getAuth(app);
-    const appId = typeof __app_id !== 'undefined' ? __app_id : 'history-quiz-app';
+    // ※ アプリIDを理科専用の 'science-quiz-app' に変更
+    const appId = typeof __app_id !== 'undefined' ? __app_id : 'science-quiz-app';
 
     let myUid = "local_guest";
     
@@ -338,11 +339,12 @@
     };
     initAuth();
 
+    // ★重要：データの保存場所を「science_rooms」に変更して社会と完全に分離
     function getRoomsRef() {
-        return collection(db, 'artifacts', appId, 'public', 'data', 'rooms');
+        return collection(db, 'artifacts', appId, 'public', 'data', 'science_rooms');
     }
     function getRoomDoc(roomId) {
-        return doc(db, 'artifacts', appId, 'public', 'data', 'rooms', roomId);
+        return doc(db, 'artifacts', appId, 'public', 'data', 'science_rooms', roomId);
     }
 
     // --- JSONから読み込んだ理科問題データベース ---
